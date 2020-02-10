@@ -13,11 +13,21 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(bodyParser.json());
 
-app.get('/', async (req, res) => {
-  let outgoing = await analytics.getAllOutgoing(
-    '0x9492510bbcb93b6992d8b7bb67888558e12dcac4'
-  );
+app.get('/outgoing', async (req, res) => {
+  const owner = req.body.owner;
+  let outgoing = await analytics.getAllOutgoing(owner);
   res.send(outgoing);
+});
+app.get('/incoming', async (req, res) => {
+  const owner = req.body.owner;
+  let incoming = await analytics.getAllIncoming(owner);
+  res.send(incoming);
+});
+app.get('/interestSent', async (req, res) => {
+  const from = req.body.from;
+  const to = req.body.from;
+  let interest = await analytics.getInterestSent(from, to);
+  res.send(interest);
 });
 
 app.listen(app.get('port'), () => {
