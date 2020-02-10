@@ -1,12 +1,14 @@
 # rDAI API
 
-Quick and easy access to rDAI data. This is a free and open instance of <b>rToken-analytics</b> ([link](https://github.com/rtoken-project/rtoken-analytics)).
+Quick and easy access to rDAI data. This is a free and open instance of <b>rToken-analytics</b>.
 
-Acces it via `api.rdai.money`. Currently only Mainnet is supported
+## Documentation
 
-> If you plan to use this service heavily, or don't find what you're looking for here, you should consider using the `rToken-analytics` package directly. Not all functions are implemented here (yet).
+See docs at [https://api.rdai.money](https://api.rdai.money)
 
-Docs coming soon! Until then, see `server.js` for what you can call.
+Currently only Mainnet is supported
+
+> If you plan to use this service heavily, or don't find what you're looking for here, you should consider using the `rToken-analytics` package directly ([link](https://github.com/rtoken-project/rtoken-analytics)). Not all functions are implemented here yet.
 
 ## Contributing
 

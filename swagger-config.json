@@ -1,0 +1,74 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "rDAI protocol information.",
+    "version": "0.1.0",
+    "title": "rDAI - API",
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/rtoken-project/rtoken-api/blob/master/LICENSE"
+    }
+  },
+  "host": "api.rdai.money",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "general",
+      "description": "Get basic account information"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/outgoing": {
+      "get": {
+        "tags": [
+          "general"
+        ],
+        "summary": "Get outgoing interest",
+        "description": "Returns where the owner is currently sending interest",
+        "operationId": "getOutgoingInterest",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "owner",
+            "in": "query",
+            "description": "Address of the owner",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Account"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Account": {
+      "type": "string",
+      "xml": {
+        "name": "Tag"
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Get HELP in our Discord",
+    "url": "https://discord.gg/ZrssveV"
+  }
+}
