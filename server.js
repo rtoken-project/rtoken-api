@@ -13,8 +13,11 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-  res.send();
+app.get('/', async (req, res) => {
+  let outgoing = await analytics.getAllOutgoing(
+    '0x9492510bbcb93b6992d8b7bb67888558e12dcac4'
+  );
+  res.send(outgoing);
 });
 
 app.listen(app.get('port'), () => {
