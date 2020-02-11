@@ -15,9 +15,7 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(bodyParser.json());
 
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-app.get('/v1/outgoing', async (req, res) => {
+app.get('/v1/allOutgoing', async (req, res) => {
   try {
     const owner = req.query.owner;
     let outgoing = await analytics.getAllOutgoing(owner);
@@ -26,7 +24,7 @@ app.get('/v1/outgoing', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-app.get('/v1/incoming', async (req, res) => {
+app.get('/v1/allIncoming', async (req, res) => {
   try {
     const owner = req.query.owner;
     let incoming = await analytics.getAllIncoming(owner);
@@ -47,6 +45,12 @@ app.get('/v1/interestSent', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
+
+var options = {
+  customCssUrl: './swagger.css'
+};
+
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
 app.listen(app.get('port'), () => {
   console.log(

@@ -17,22 +17,15 @@
       "description": "Get basic account information"
     }
   ],
-  "schemes": [
-    "https",
-    "http"
-  ],
+  "schemes": ["https", "http"],
   "paths": {
-    "/outgoing": {
+    "/allOutgoing": {
       "get": {
-        "tags": [
-          "general"
-        ],
+        "tags": ["general"],
         "summary": "Get outgoing interest",
-        "description": "Returns where the owner is currently sending interest",
+        "description": "Returns where all accounts which the owner is sending interest to",
         "operationId": "getOutgoingInterest",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "owner",
@@ -48,8 +41,76 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Account"
+                "$ref": "#/definitions/Loan"
               }
+            }
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/allIncoming": {
+      "get": {
+        "tags": ["general"],
+        "summary": "Get incoming interest",
+        "description": "Returns all accounts sending interest to the owner",
+        "operationId": "getIncomingInterest",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "owner",
+            "in": "query",
+            "description": "Address of the owner",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Loan"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/interestSent": {
+      "get": {
+        "tags": ["general"],
+        "summary": "Get outgoing interest",
+        "description": "Returns where all accounts which the owner is sending interest to",
+        "operationId": "getOutgoingInterest",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Address of the sender",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "Address of the recipient",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
             }
           },
           "500": {
@@ -60,10 +121,58 @@
     }
   },
   "definitions": {
-    "Account": {
-      "type": "string",
+    "Loan": {
+      "type": "object",
       "xml": {
         "name": "Tag"
+      },
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "recipient": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          }
+        },
+        "hat": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          }
+        },
+        "transfers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "transaction": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "timestamp": {
+                    "type": "string"
+                  },
+                  "blockNumber": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
