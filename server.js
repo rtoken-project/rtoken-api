@@ -37,8 +37,10 @@ app.get('/v1/interestSent', async (req, res) => {
   try {
     const from = req.query.from;
     const to = req.query.from;
-    let interest = await analytics.getInterestSent(from, to);
-    console.log(interest);
+    let interest = await analytics.getInterestSent(
+      from.toLowerCase(),
+      to.toLowerCase()
+    );
     res.send(interest.toString());
   } catch (err) {
     console.log(err);
