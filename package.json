@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "watch": "nodemon --exec yarn start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -17,5 +18,8 @@
     "lodash": "^4.17.15",
     "rtoken-analytics": "^0.0.9",
     "swagger-ui-express": "^4.1.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }

@@ -36,7 +36,7 @@ app.get('/v1/allIncoming', async (req, res) => {
 app.get('/v1/interestSent', async (req, res) => {
   try {
     const from = req.query.from;
-    const to = req.query.from;
+    const to = req.query.to;
     let interest = await analytics.getInterestSent(
       from.toLowerCase(),
       to.toLowerCase()
