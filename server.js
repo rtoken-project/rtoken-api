@@ -70,6 +70,17 @@ app.get('/v1/receivedSavingsOfPerHat', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
+app.get('/v1/amountEarnedPerHat', async (req, res) => {
+  // !! Danger: this does not track which has been withdrawn by the recipient
+  try {
+    const hatID = req.query.hatID;
+    let earned = await analytics.amountEarnedPerHat(hatID);
+    res.send(earned.toString());
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(`Error fetching data: "${err}"`);
+  }
+});
 
 var swaggerOptions = {
   customCssUrl: './swagger.css'
