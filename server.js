@@ -1,12 +1,15 @@
 const express = require('express');
+require('dotenv').config();
 const _ = require('lodash');
 const bodyParser = require('body-parser');
 const RTokenAnalytics = require('rtoken-analytics');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger-config.json');
 
-const analytics = new RTokenAnalytics();
-
+const options = {
+  infuraEndpointKey: process.env.INFURA_ENDPOINT_KEY
+};
+const analytics = new RTokenAnalytics(options);
 var app = express();
 app.set('port', 3001);
 if (process.env.NODE_ENV === 'production') {
@@ -47,12 +50,32 @@ app.get('/v1/interestSent', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
+app.get('/v1/receivedSavingsOf', async (req, res) => {
+  try {
+    const owner = req.query.owner;
+    let savings = await analytics.receivedSavingsOf(owner.toLowerCase());
+    res.send(savings.toString());
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(`Error fetching data: "${err}"`);
+  }
+});
+app.get('/v1/receivedSavingsOfPerHat', async (req, res) => {
+  try {
+    const hat = req.query.hatID;
+    let savings = await analytics.receivedSavingsOfPerHat(hatID);
+    res.send(savings.toString());
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(`Error fetching data: "${err}"`);
+  }
+});
 
-var options = {
+var swaggerOptions = {
   customCssUrl: './swagger.css'
 };
 
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
 
 app.listen(app.get('port'), () => {
   console.log(
