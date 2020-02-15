@@ -62,7 +62,7 @@ app.get('/v1/receivedSavingsOf', async (req, res) => {
 });
 app.get('/v1/receivedSavingsOfPerHat', async (req, res) => {
   try {
-    const hat = req.query.hatID;
+    const hatID = req.query.hatID;
     let savings = await analytics.receivedSavingsOfPerHat(hatID);
     res.send(savings.toString());
   } catch (err) {
