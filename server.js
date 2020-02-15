@@ -50,6 +50,8 @@ app.get('/v1/interestSent', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
+
+// High Priests additions
 app.get('/v1/receivedSavingsOf', async (req, res) => {
   try {
     const owner = req.query.owner;
@@ -60,27 +62,37 @@ app.get('/v1/receivedSavingsOf', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-app.get('/v1/receivedSavingsOfPerHat', async (req, res) => {
+app.get('/v1/receivedSavingsOfByHat', async (req, res) => {
   try {
     const hatID = req.query.hatID;
-    let savings = await analytics.receivedSavingsOfPerHat(hatID);
+    let savings = await analytics.receivedSavingsOfByHat(hatID);
     res.send(savings.toString());
   } catch (err) {
     console.log(err);
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-app.get('/v1/amountEarnedPerHat', async (req, res) => {
+app.get('/v1/amountEarnedByHat', async (req, res) => {
   // !! Danger: this does not track which has been withdrawn by the recipient
   try {
     const hatID = req.query.hatID;
-    let earned = await analytics.amountEarnedPerHat(hatID);
+    let earned = await analytics.amountEarnedByHat(hatID);
     res.send(earned.toString());
   } catch (err) {
     console.log(err);
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
+// app.get('/v1/getHatByAddress', async (req, res) => {
+//   try {
+//     const hatID = req.query.hatID;
+//     let earned = await analytics.amountEarnedByHat(hatID);
+//     res.send(earned.toString());
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).send(`Error fetching data: "${err}"`);
+//   }
+// });
 
 var swaggerOptions = {
   customCssUrl: './swagger.css'
