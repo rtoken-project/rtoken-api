@@ -83,16 +83,16 @@ app.get('/v1/amountEarnedByHat', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-// app.get('/v1/getHatByAddress', async (req, res) => {
-//   try {
-//     const hatID = req.query.hatID;
-//     let earned = await analytics.amountEarnedByHat(hatID);
-//     res.send(earned.toString());
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).send(`Error fetching data: "${err}"`);
-//   }
-// });
+app.get('/v1/getHatIDByAddress', async (req, res) => {
+  try {
+    const owner = req.query.owner;
+    let hatID = await analytics.getHatIDByAddress(owner);
+    res.send(hatID);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(`Error fetching data: "${err}"`);
+  }
+});
 
 var swaggerOptions = {
   customCssUrl: './swagger.css'
