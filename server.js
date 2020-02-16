@@ -56,7 +56,7 @@ app.get('/v1/receivedSavingsOf', async (req, res) => {
   try {
     const owner = req.query.owner;
     let savings = await analytics.receivedSavingsOf(owner.toLowerCase());
-    res.send(savings.toString());
+    res.send({ amount: savings.toString() });
   } catch (err) {
     console.log(err);
     res.status(500).send(`Error fetching data: "${err}"`);
@@ -66,7 +66,7 @@ app.get('/v1/receivedSavingsOfByHat', async (req, res) => {
   try {
     const hatID = req.query.hatID;
     let savings = await analytics.receivedSavingsOfByHat(hatID);
-    res.send(savings.toString());
+    res.send({ amount: savings.toString() });
   } catch (err) {
     console.log(err);
     res.status(500).send(`Error fetching data: "${err}"`);
@@ -77,7 +77,7 @@ app.get('/v1/amountEarnedByHat', async (req, res) => {
   try {
     const hatID = req.query.hatID;
     let earned = await analytics.amountEarnedByHat(hatID);
-    res.send(earned.toString());
+    res.send({ amount: earned.toString() });
   } catch (err) {
     console.log(err);
     res.status(500).send(`Error fetching data: "${err}"`);
@@ -87,7 +87,7 @@ app.get('/v1/getHatIDByAddress', async (req, res) => {
   try {
     const owner = req.query.owner;
     let hatID = await analytics.getHatIDByAddress(owner);
-    res.send(hatID);
+    res.send({ hatID: hatID });
   } catch (err) {
     console.log(err);
     res.status(500).send(`Error fetching data: "${err}"`);
@@ -118,7 +118,7 @@ app.get('/v1/userContributionToHat', async (req, res) => {
     const hatID = req.query.hatID;
     const owner = req.query.owner;
     let amount = await analytics.userContributionToHat(hatID, owner);
-    res.send(amount.toString());
+    res.send({ amount: amount.toString() });
   } catch (err) {
     console.log(err);
     res.status(500).send(`Error fetching data: "${err}"`);
@@ -138,7 +138,7 @@ app.get('/v1/sortHatsByReceivedSavingsOf', async (req, res) => {
   try {
     const hats = req.query.hats;
     let sortedHats = await analytics.sortHatsByReceivedSavingsOf(hats);
-    res.send(sortedHats);
+    res.send({ sortedHats });
   } catch (err) {
     console.log(err);
     res.status(500).send(`Error fetching data: "${err}"`);
