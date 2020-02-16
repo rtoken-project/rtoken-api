@@ -124,6 +124,16 @@ app.get('/v1/userContributionToHat', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
+app.get('/v1/getTopDonorByHatGroup', async (req, res) => {
+  try {
+    const hats = req.query.hats;
+    let donor = await analytics.getTopDonorByHatGroup(hats);
+    res.send(donor);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(`Error fetching data: "${err}"`);
+  }
+});
 
 var swaggerOptions = {
   customCssUrl: './swagger.css'
