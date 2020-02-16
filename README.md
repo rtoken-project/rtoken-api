@@ -4,7 +4,7 @@ Quick and easy access to rDAI data. This is a free and open instance of <b>rToke
 
 ## Documentation
 
-Postman collection is available for download [rDAI.postman_collection.json]("./rDAI.postman_collection")
+Postman collection is available for download in `./rDAI.postman_collection.json`
 
 See docs at [https://api.rdai.money](https://api.rdai.money)
 
