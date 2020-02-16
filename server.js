@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const RTokenAnalytics = require('rtoken-analytics');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger-config.json');
+var cors = require('cors');
 
 const options = {
   infuraEndpointKey: process.env.INFURA_ENDPOINT_KEY
@@ -17,6 +18,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.get('/v1/allOutgoing', async (req, res) => {
   try {

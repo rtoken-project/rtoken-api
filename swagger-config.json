@@ -82,6 +82,38 @@
           }
         }
       }
+    },
+    "/receivedSavingsOfByHat": {
+      "get": {
+        "tags": ["general"],
+        "summary": "Get the total savingsOf for all the recipients in a hat",
+        "description": "Returns all accounts sending interest to the owner",
+        "operationId": "receivedSavingsOfByHat",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "hatID",
+            "in": "query",
+            "description": "ID of the Hat",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "amount": "string"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
     }
   },
   "definitions": {
