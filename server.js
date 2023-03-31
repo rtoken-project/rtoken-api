@@ -1,26 +1,27 @@
-const express = require('express');
-require('dotenv').config();
-const _ = require('lodash');
-const bodyParser = require('body-parser');
-const RTokenAnalytics = require('rtoken-analytics');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger-config.json');
-var cors = require('cors');
+require("dotenv").config();
 
+const express = require("express");
+const _ = require("lodash");
+const bodyParser = require("body-parser");
+const RTokenAnalytics = require("rtoken-analytics");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger-config.json");
+var cors = require("cors");
+global.XMLHttpRequest = require("xhr2");
 const options = {
-  infuraEndpointKey: process.env.INFURA_ENDPOINT_KEY
+  infuraEndpointKey: process.env.INFURA_ENDPOINT_KEY,
 };
 const analytics = new RTokenAnalytics(options);
 var app = express();
-app.set('port', 3001);
-if (process.env.NODE_ENV === 'production') {
-  app.set('port', 4001);
+app.set("port", 3001);
+if (process.env.NODE_ENV === "production") {
+  app.set("port", 4001);
 }
 
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/v1/allOutgoing', async (req, res) => {
+app.get("/v1/allOutgoing", async (req, res) => {
   try {
     const owner = req.query.owner;
     let outgoing = await analytics.getAllOutgoing(owner);
@@ -29,7 +30,7 @@ app.get('/v1/allOutgoing', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-app.get('/v1/allIncoming', async (req, res) => {
+app.get("/v1/allIncoming", async (req, res) => {
   try {
     const owner = req.query.owner;
     let incoming = await analytics.getAllIncoming(owner);
@@ -38,7 +39,7 @@ app.get('/v1/allIncoming', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-app.get('/v1/interestSent', async (req, res) => {
+app.get("/v1/interestSent", async (req, res) => {
   try {
     const from = req.query.from;
     const to = req.query.to;
@@ -54,7 +55,7 @@ app.get('/v1/interestSent', async (req, res) => {
 });
 
 // High Priests additions
-app.get('/v1/receivedSavingsOf', async (req, res) => {
+app.get("/v1/receivedSavingsOf", async (req, res) => {
   try {
     const owner = req.query.owner;
     let savings = await analytics.receivedSavingsOf(owner.toLowerCase());
@@ -64,7 +65,7 @@ app.get('/v1/receivedSavingsOf', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-app.get('/v1/receivedSavingsOfByHat', async (req, res) => {
+app.get("/v1/receivedSavingsOfByHat", async (req, res) => {
   try {
     const hatID = req.query.hatID;
     let savings = await analytics.receivedSavingsOfByHat(hatID);
@@ -74,7 +75,7 @@ app.get('/v1/receivedSavingsOfByHat', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-app.get('/v1/amountEarnedByHat', async (req, res) => {
+app.get("/v1/amountEarnedByHat", async (req, res) => {
   // !! Danger: this does not track which has been withdrawn by the recipient
   try {
     const hatID = req.query.hatID;
@@ -85,7 +86,7 @@ app.get('/v1/amountEarnedByHat', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-app.get('/v1/getHatIDByAddress', async (req, res) => {
+app.get("/v1/getHatIDByAddress", async (req, res) => {
   try {
     const owner = req.query.owner;
     let hatID = await analytics.getHatIDByAddress(owner);
@@ -95,7 +96,7 @@ app.get('/v1/getHatIDByAddress', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-app.get('/v1/allUsersWithHat', async (req, res) => {
+app.get("/v1/allUsersWithHat", async (req, res) => {
   try {
     const hatID = req.query.hatID;
     let users = await analytics.allUsersWithHat(hatID);
@@ -105,7 +106,7 @@ app.get('/v1/allUsersWithHat', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-app.get('/v1/allUsersWithHat', async (req, res) => {
+app.get("/v1/allUsersWithHat", async (req, res) => {
   try {
     const hatID = req.query.hatID;
     let users = await analytics.allUsersWithHat(hatID);
@@ -115,7 +116,7 @@ app.get('/v1/allUsersWithHat', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-app.get('/v1/userContributionToHat', async (req, res) => {
+app.get("/v1/userContributionToHat", async (req, res) => {
   try {
     const hatID = req.query.hatID;
     const owner = req.query.owner;
@@ -126,7 +127,7 @@ app.get('/v1/userContributionToHat', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-app.get('/v1/getTopDonorByHatGroup', async (req, res) => {
+app.get("/v1/getTopDonorByHatGroup", async (req, res) => {
   try {
     const hats = req.query.hats;
     let donor = await analytics.getTopDonorByHatGroup(hats);
@@ -136,7 +137,7 @@ app.get('/v1/getTopDonorByHatGroup', async (req, res) => {
     res.status(500).send(`Error fetching data: "${err}"`);
   }
 });
-app.get('/v1/sortHatsByReceivedSavingsOf', async (req, res) => {
+app.get("/v1/sortHatsByReceivedSavingsOf", async (req, res) => {
   try {
     const hats = req.query.hats;
     let sortedHats = await analytics.sortHatsByReceivedSavingsOf(hats);
@@ -148,17 +149,17 @@ app.get('/v1/sortHatsByReceivedSavingsOf', async (req, res) => {
 });
 
 var swaggerOptions = {
-  customCssUrl: './swagger.css'
+  customCssUrl: "./swagger.css",
 };
 
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
+app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
 
-app.listen(app.get('port'), () => {
+app.listen(app.get("port"), () => {
   console.log(
     `_______________________________________________________________\n`
   );
   console.log(`################# rToken API Server ####################\n`);
-  console.log(`Started on port ${app.get('port')}`);
+  console.log(`Started on port ${app.get("port")}`);
   console.log(`______________________________________________________________`);
 });
 module.exports = { app };
